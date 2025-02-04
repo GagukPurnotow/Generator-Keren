@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator JSON Akun</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-section, .output-section {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generator JSON Akun</h1>
+
+    <div class="container">
+        <!-- Input Section -->
+        <div class="input-section">
+            <h2>Input Akun</h2>
+            <label for="emails">Email (tempelkan semua email di sini):</label><br>
+            <textarea id="emails" placeholder="Masukkan email di sini, satu per baris..."></textarea><br><br>
+
+            <label for="passwords">Password (tempelkan semua password di sini):</label><br>
+            <textarea id="passwords" placeholder="Masukkan password di sini, satu per baris..."></textarea><br><br>
+
+            <button id="generateJsonBtn">Generate JSON</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <h2>Output JSON:</h2>
+            <pre id="jsonOutput"></pre>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generateJsonBtn').addEventListener('click', function() {
+            const emailText = document.getElementById('emails').value.trim();
+            const passwordText = document.getElementById('passwords').value.trim();
+
+            // Memecah email dan password berdasarkan baris
+            const emails = emailText.split('\n').map(email => email.trim());
+            const passwords = passwordText.split('\n').map(password => password.trim());
+
+            // Memastikan jumlah email dan password sama
+            if (emails.length === passwords.length) {
+                const jsonData = emails.map((email, index) => {
+                    return { "Email": email, "Password": passwords[index] };
+                });
+
+                // Menampilkan hasil JSON di output section
+                document.getElementById('jsonOutput').textContent = JSON.stringify(jsonData, null, 2);
+            } else {
+                alert('Jumlah email dan password tidak sesuai!');
+            }
+        });
+    </script>
+</body>
+</html>
